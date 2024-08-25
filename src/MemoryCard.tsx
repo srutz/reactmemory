@@ -16,7 +16,7 @@ export function MemoryCard({ card, handleFlip }: MemoryCardProps) {
         return <div className="w-32 h-32"></div>
     }
     return (
-        <div className="w-32 h-32 cursor-pointer perspective" onClick={handleFlip}>
+        <div className="w-full h-full cursor-pointer perspective" onClick={handleFlip}>
             <div className={`card-inner ${card.flipped ? 'is-flipped' : ''}`}>
                 <div className="card-front">
                     <img src={card.imageUrl} className="w-full h-full object-cover rounded-lg" />

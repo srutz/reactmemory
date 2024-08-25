@@ -1,8 +1,9 @@
-import { useRef, useState } from "react"
+import { CSSProperties, useRef, useState } from "react"
 import { MemoryCard } from "./MemoryCard"
 import { Util } from "./Util"
 import { GameStats } from "./GameStats"
 import { Card, GameState, RunState } from "./MemoryTypes"
+import { useWindowSize } from "./hooks/WindowSize"
 
 
 /* create the card models for the game and shuffle them */
@@ -49,6 +50,9 @@ export function MemoryGame({ gameSize: gameSize }: { gameSize: number }) {
     /* remember the timeout id for the checkForMatch function, so we can 
      * cancel pending timeouts */
     const timeoutId = useRef<number>(0)
+
+    /* for poor man's responsive design */
+    const windowSize = useWindowSize()
 
     /* func to reinitialize the gameState for a new game */
     const newGame = () => {
@@ -131,22 +135,26 @@ export function MemoryGame({ gameSize: gameSize }: { gameSize: number }) {
     if ([2, 4, 6].indexOf(gameSize) == -1) {
         return <div>Invalid Gamesize={gameSize}</div>
     }
-    const gridCols = `repeat(${gameSize}, minmax(0, 1fr))`
+    const gridCols = `repeat(${gameSize}, minmax(0, 128px))`
+    const styles: CSSProperties = {
+        "gridTemplateColumns": gridCols,
+        "gridTemplateRows": gridCols,
+        "alignContent": "center",
+        "gap": windowSize.width < 600 || windowSize.height < 800 ? "8px" : "16px"
+    } 
 
     /* return the game's gui */
     return (
-        <div className="flex">
-            <div className="grow"></div>
+        <div className="flex flex-col grow h-1 items-center justify-center p-3">
             {gameState.runState == RunState.STARTED
                 // gui for started game
-                ? (<div className={`grid gap-4`} style={ { gridTemplateColumns: gridCols }} >
+                ? (<div className={`grow shrink h-1 grid gap-6 `} style={ styles } >
                     {[...Array(gameSize * gameSize)].map((_, i) => (
                         <MemoryCard key={i} card={gameState.cards[i]} handleFlip={handleFlip(i)} />
                     ))}</div>)
                 // gui for stopped game
-                : (<button className="button" onClick={newGame}>Start new Game</button>)
+                : (<button className="button" onClick={newGame}>Start new {gameSize} x {gameSize} Game</button>)
             }
-            <div className="grow"></div>
             <GameStats badMisses={gameState.badMisses} moves={gameState.moves} misses={gameState.misses}></GameStats>
         </div>
     )

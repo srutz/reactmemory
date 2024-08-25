@@ -31,14 +31,14 @@ export function App() {
     }
 
     return (
-        <div className="grow flex flex-col">
+        <div className="grow flex flex-col h-1">
             <Menubar handleClick={onMenuAction}/>
-            <div className="flex-grow flex justify-center items-center bg-indigo-400 relative">
+            <div className="flex flex-col grow h-1 justify-center items-center bg-indigo-400 relative">
                 <MemoryGame key={gameSize.key} gameSize={gameSize.size}></MemoryGame>
             </div>
             <Modal show={aboutShown} onClose={() => {setAboutShown(false)}} title="About Reactmemory">
                 <p>Small React Memory Game. (For demo purposes only.)</p>
-                <p>Written by Stepan Rutz.</p>
+                <p>by Stepan Rutz.</p>
                 <p>Images are from Pexels.com.</p>
             </Modal>
         </div>
