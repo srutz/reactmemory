@@ -66,6 +66,10 @@ export function MemoryGame({ gameSize: gameSize }: { gameSize: number }) {
         if (visibleCards.length >= 2) {
             return
         }
+
+        if (!gameState.cards[index].flipped) {
+            return
+        }
         const newGameState = {...gameState}
         newGameState.cards[index].flipped = !newGameState.cards[index].flipped
         setGameState(newGameState)
