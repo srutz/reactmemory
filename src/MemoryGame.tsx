@@ -50,18 +50,6 @@ export function MemoryGame({ gameSize: gameSize }: { gameSize: number }) {
      * cancel pending timeouts */
     const timeoutId = useRef<number>(0)
 
-
-    /* last gameSize */
-    /*
-    const lastGameSize = useRef<number>(gameSize)
-    useEffect(() => {
-        if (gameSize != lastGameSize.current) {
-            newGame()
-            lastGameSize.current = gameSize
-        }
-    }, [gameSize])
-    */
-
     /* func to reinitialize the gameState for a new game */
     const newGame = () => {
         const newGameState = {...gameState}
@@ -139,6 +127,7 @@ export function MemoryGame({ gameSize: gameSize }: { gameSize: number }) {
     if ([2, 4, 6].indexOf(gameSize) == -1) {
         return <div>Invalid Gamesize={gameSize}</div>
     }
+    const gridCols = `repeat(${gameSize}, minmax(0, 1fr))`
 
     /* return the game's gui */
     return (
@@ -146,7 +135,7 @@ export function MemoryGame({ gameSize: gameSize }: { gameSize: number }) {
             <div className="grow"></div>
             {gameState.runState == RunState.STARTED
                 // gui for started game
-                ? (<div className={`grid grid-cols-${gameSize} gap-4`} >
+                ? (<div className={`grid gap-4`} style={ { gridTemplateColumns: gridCols }} >
                     {[...Array(gameSize * gameSize)].map((_, i) => (
                         <MemoryCard key={i} card={gameState.cards[i]} handleFlip={handleFlip(i)} />
                     ))}</div>)
