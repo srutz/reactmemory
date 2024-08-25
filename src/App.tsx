@@ -37,7 +37,7 @@ export function App() {
                 <MemoryGame key={gameSize.key} gameSize={gameSize.size}></MemoryGame>
             </div>
             <Modal show={aboutShown} onClose={() => {setAboutShown(false)}} title="About Reactmemory">
-                <p>Small React Memory Game. For demo purposes only.</p>
+                <p>Small React Memory Game. (For demo purposes only.)</p>
                 <p>Written by Stepan Rutz.</p>
                 <p>Images are from Pexels.com.</p>
             </Modal>
